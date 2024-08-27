@@ -22,7 +22,8 @@ import {SocialMedia} from 'src/components/SocialMedia'
 import {Locations} from "@/components/Locations";
 import Image from 'next/image'
 
-import tennis27Logo from 'src/images/tennis27-logo.webp'
+import tennis27Logo from 'src/images/tennis27-logo-full.png';
+
 import tennisCourt from '/images/tennis-court.png';
 
 
@@ -70,12 +71,12 @@ function Header({
                     href="/"
                     aria-label="Home"
                 >
-                    <div className="relative h-16 w-64">
+                    <div className="relative h-28 w-28">
                         <Image
                             src={tennis27Logo}
                             alt="Tennis27 Logo"
                             fill
-                            style={{ objectFit: 'contain' }}
+                            style={{objectFit: 'contain'}}
                             priority
                         />
                     </div>
@@ -119,13 +120,32 @@ function Header({
 }
 
 
-function NavigationRow({children}: { children: React.ReactNode }) {
+function NavigationRow({children, alignTop = false}: { children: React.ReactNode, alignTop?: boolean }) {
     return (
-        <div className="even:mt-px bg-clay">
-            <Container>
-                <div className="grid grid-cols-1 sm:grid-cols-2">{children}</div>
-            </Container>
-        </div>
+        <>
+            {alignTop && (
+                <div className="bg-clay">
+                    <div className="h-20 relative">
+                        <div className="absolute inset-y-0 left-1/2 w-px bg-white"/>
+                    </div>
+                </div>
+            )}
+            <div className="even:mt-px bg-clay">
+                <Container>
+                    <div className="grid grid-cols-1 sm:grid-cols-2">{children}</div>
+                </Container>
+            </div>
+            {!alignTop && (
+                <>
+                    <hr className="border-white"/>
+                    <div className="bg-clay">
+                        <div className="h-20 relative">
+                            <div className="absolute inset-y-0 left-1/2 w-px bg-white"/>
+                        </div>
+                    </div>
+                </>
+            )}
+        </>
     )
 }
 
@@ -139,27 +159,30 @@ function NavigationItem({
     alignRight?: boolean
 }) {
     return (
-        <Link
-            href={href}
-            className={clsx(
-                "group relative isolate -mx-6 bg-clay px-6 py-10 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-white sm:even:pl-16",
-                alignRight && "text-right"
-            )}
-        >
-            {children}
-            <span
-                className="absolute inset-y-0 -z-10 w-screen bg-clayDark opacity-0 transition group-odd:right-0 group-even:left-0 group-hover:opacity-100"/>
-        </Link>
+        <>
+            <Link
+                href={href}
+                className={clsx(
+                    "group relative isolate -mx-6 bg-clay px-6 py-10 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-white sm:even:pl-16",
+                    alignRight && "text-right"
+                )}
+            >
+                {children}
+                <span
+                    className="absolute inset-y-0 -z-10 w-screen bg-clayDark opacity-0 transition group-odd:right-0 group-even:left-0 group-hover:opacity-100"/>
+            </Link>
+        </>
     )
 }
 
 function Navigation() {
     return (
         <nav className="mt-px font-display text-5xl font-medium tracking-tight text-white">
-            <NavigationRow>
+            <NavigationRow alignTop>
                 <NavigationItem href="/work" alignRight>Home</NavigationItem>
                 <NavigationItem href="/about">Shop</NavigationItem>
             </NavigationRow>
+            <hr className="border-white border-0"/>
             <NavigationRow>
                 <NavigationItem href="/process" alignRight>Stringing</NavigationItem>
                 <NavigationItem href="/blog">Specials</NavigationItem>
@@ -226,7 +249,7 @@ function RootLayoutInner({children}: { children: React.ReactNode }) {
                     inert={expanded ? undefined : ''}
                 >
                     <motion.div layout className="bg-white">
-                        <div ref={navRef} className="bg-grass pb-16 pt-14 border-b-white">
+                        <div ref={navRef} className="bg-grass pb-4 pt-14 border-b-white">
                             <Header
                                 invert
                                 panelId={panelId}
