@@ -17,7 +17,6 @@ import {Button} from 'src/components/Button'
 import {Container} from 'src/components/Container'
 import {Footer} from 'src/components/Footer'
 import {GridPattern} from 'src/components/GridPattern'
-import {Logo, Logomark} from 'src/components/Logo'
 import {SocialMedia} from 'src/components/SocialMedia'
 import {Locations} from "@/components/Locations";
 import Image from 'next/image'
@@ -71,7 +70,7 @@ function Header({
                     href="/"
                     aria-label="Home"
                 >
-                    <div className="relative h-28 w-28">
+                    <div className="relative h-48 w-48">
                         <Image
                             src={tennis27Logo}
                             alt="Tennis27 Logo"
@@ -120,75 +119,69 @@ function Header({
 }
 
 
-function NavigationRow({children, alignTop = false}: { children: React.ReactNode, alignTop?: boolean }) {
+function DoublesAlley() {
     return (
-        <>
-            {alignTop && (
-                <div className="bg-clay">
-                    <div className="h-20 relative">
-                        <div className="absolute inset-y-0 left-1/2 w-px bg-white"/>
-                    </div>
-                </div>
-            )}
-            <div className="even:mt-px bg-clay">
-                <Container>
-                    <div className="grid grid-cols-1 sm:grid-cols-2">{children}</div>
-                </Container>
+        <div className="bg-clay">
+            <div className="h-20 relative border-b-[1px] border-t-[1px] border-white">
+                <div className="absolute inset-y-0 left-1/2 w-px bg-white"/>
             </div>
-            {!alignTop && (
-                <>
-                    <hr className="border-white"/>
-                    <div className="bg-clay">
-                        <div className="h-20 relative">
-                            <div className="absolute inset-y-0 left-1/2 w-px bg-white"/>
-                        </div>
-                    </div>
-                </>
-            )}
-        </>
-    )
+        </div>
+    );
 }
 
-function NavigationItem({
-                            href,
-                            children,
-                            alignRight = false,
-                        }: {
-    href: string
-    children: React.ReactNode
-    alignRight?: boolean
-}) {
+function NoManLand() {
     return (
-        <>
-            <Link
-                href={href}
-                className={clsx(
-                    "group relative isolate -mx-6 bg-clay px-6 py-10 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-white sm:even:pl-16",
-                    alignRight && "text-right"
-                )}
-            >
-                {children}
-                <span
-                    className="absolute inset-y-0 -z-10 w-screen bg-clayDark opacity-0 transition group-odd:right-0 group-even:left-0 group-hover:opacity-100"/>
-            </Link>
-        </>
-    )
+        <div className="noman bg-clay w-1/2"/>
+    );
 }
 
-function Navigation() {
+// @ts-ignore
+function Court({ type }) {
+    const pathname = usePathname();
+    let href;
+    if (type == 'Home') {
+        href = `/`;
+    } else {
+        href = `/${type.toLowerCase()}`;
+    }
+    const isActive = pathname === href;
+    const isRightSide = type === 'Specials' || type === 'Gallery';
+
+    return (
+        <Link href={href} className={`${type} bg-clay h-32 w-full relative flex items-center justify-center cursor-pointer transition-colors duration-300 hover:bg-clayDark`}>
+            <span className="text-white text-3xl font-semibold">{type}</span>
+            <div className="absolute inset-y-0 left-0 w-px bg-white"/>
+            {isRightSide && <div className="absolute inset-y-0 right-0 w-px bg-white"/>}
+        </Link>
+    );
+}
+// @ts-ignore
+function CourtSide({ side }) {
+    return (
+        <div className={`flex flex-row w-1/2`}>
+            {side === 'left' && <NoManLand />}
+            <div className="flex flex-col w-1/2">
+                <Court type={side === 'left' ? 'Home' : 'Specials'} />
+                <hr className="border-t border-white" />
+                <Court type={side === 'left' ? 'Stringing' : 'Gallery'} />
+            </div>
+            {side === 'right' && <NoManLand />}
+        </div>
+    );
+}
+
+export default function Navigation() {
     return (
         <nav className="mt-px font-display text-5xl font-medium tracking-tight text-white">
-            <NavigationRow alignTop>
-                <NavigationItem href="/work" alignRight>Home</NavigationItem>
-                <NavigationItem href="/about">Shop</NavigationItem>
-            </NavigationRow>
-            <hr className="border-white border-0"/>
-            <NavigationRow>
-                <NavigationItem href="/process" alignRight>Stringing</NavigationItem>
-                <NavigationItem href="/blog">Specials</NavigationItem>
-            </NavigationRow>
+            <DoublesAlley/>
+            <div className="flex flex-row relative">
+                <CourtSide side="left" />
+                <div className="absolute inset-y-0 left-1/2 w-px bg-white"/>
+                <CourtSide side="right" />
+            </div>
+            <DoublesAlley/>
         </nav>
-    )
+    );
 }
 
 function RootLayoutInner({children}: { children: React.ReactNode }) {
@@ -283,12 +276,21 @@ function RootLayoutInner({children}: { children: React.ReactNode }) {
                                             Check us out
                                         </h2>
                                         <SocialMedia className="mt-6" invert/>
+
                                         <h2 className="font-display text-base font-semibold text-white mt-10">
+                                            {/*Email*/}
+                                            <a href="mailto:Tennis27@mail.com" className="text-white">
+                                                Tennis27@mail.com
+                                            </a>
+                                        </h2>
+
+                                        <h2 className="font-display text-base font-semibold text-white mt-2">
                                             {/*phone number*/}
                                             <a href="tel:224-518-7471" className="text-white">
                                                 (224) 518-7471
                                             </a>
                                         </h2>
+
                                     </div>
                                 </div>
                             </Container>
@@ -302,7 +304,7 @@ function RootLayoutInner({children}: { children: React.ReactNode }) {
                 style={{borderTopLeftRadius: 40, borderTopRightRadius: 40}}
                 className="relative flex flex-auto overflow-hidden bg-white pt-14"
             >
-                <motion.div
+            <motion.div
                     layout
                     className="relative isolate flex w-full flex-col pt-9"
                 >

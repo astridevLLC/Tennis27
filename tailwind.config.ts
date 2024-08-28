@@ -18,6 +18,15 @@ export default {
       '7xl': ['4rem', { lineHeight: '4.5rem' }],
     },
     extend: {
+      animation: {
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+      },
+      keyframes: {
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        }
+      },
       borderRadius: {
         '4xl': '2.5rem',
       },

@@ -9,6 +9,7 @@ import { FadeIn } from 'src/components/FadeIn'
 import { Offices } from 'src/components/Offices'
 import { PageIntro } from 'src/components/PageIntro'
 import { SocialMedia } from 'src/components/SocialMedia'
+import {Locations} from "@/components/Locations";
 
 function TextInput({
   label,
@@ -35,28 +36,13 @@ function TextInput({
   )
 }
 
-function RadioInput({
-  label,
-  ...props
-}: React.ComponentPropsWithoutRef<'input'> & { label: string }) {
-  return (
-    <label className="flex gap-x-3">
-      <input
-        type="radio"
-        {...props}
-        className="h-6 w-6 flex-none appearance-none rounded-full border border-neutral-950/20 outline-none checked:border-[0.5rem] checked:border-neutral-950 focus-visible:ring-1 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
-      />
-      <span className="text-base/6 text-neutral-950">{label}</span>
-    </label>
-  )
-}
 
 function ContactForm() {
   return (
     <FadeIn className="lg:order-last">
       <form>
         <h2 className="font-display text-base font-semibold text-neutral-950">
-          Work inquiries
+          Contact us with any questions
         </h2>
         <div className="isolate mt-6 -space-y-px rounded-2xl bg-white/50">
           <TextInput label="Name" name="name" autoComplete="name" />
@@ -66,27 +52,10 @@ function ContactForm() {
             name="email"
             autoComplete="email"
           />
-          <TextInput
-            label="Company"
-            name="company"
-            autoComplete="organization"
-          />
-          <TextInput label="Phone" type="tel" name="phone" autoComplete="tel" />
-          <TextInput label="Message" name="message" />
-          <div className="border border-neutral-300 px-6 py-8 first:rounded-t-2xl last:rounded-b-2xl">
-            <fieldset>
-              <legend className="text-base/6 text-neutral-500">Budget</legend>
-              <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2">
-                <RadioInput label="$25K – $50K" name="budget" value="25" />
-                <RadioInput label="$50K – $100K" name="budget" value="50" />
-                <RadioInput label="$100K – $150K" name="budget" value="100" />
-                <RadioInput label="More than $150K" name="budget" value="150" />
-              </div>
-            </fieldset>
-          </div>
+          <TextInput className="border border-neutral-300 px-6 py-8 first:rounded-t-2xl last:rounded-b-2xl" label="Message" name="message" />
         </div>
         <Button type="submit" className="mt-10">
-          Let’s work together
+            Send message
         </Button>
       </form>
     </FadeIn>
@@ -97,23 +66,22 @@ function ContactDetails() {
   return (
     <FadeIn>
       <h2 className="font-display text-base font-semibold text-neutral-950">
-        Our offices
+        Our Shop Location
       </h2>
       <p className="mt-6 text-base text-neutral-600">
-        Prefer doing things in person? We don’t but we have to list our
-        addresses here for legal reasons.
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
+        Can't wait to hear back? Visit us in person at our shop location.
       </p>
 
-      <Offices className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2" />
+      <Locations className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2" />
 
-      <Border className="mt-16 pt-16">
+      <Border className="mt-10 pt-16">
         <h2 className="font-display text-base font-semibold text-neutral-950">
-          Email us
+          Email us directly
         </h2>
         <dl className="mt-6 grid grid-cols-1 gap-8 text-sm sm:grid-cols-2">
           {[
-            ['Careers', 'careers@studioagency.com'],
-            ['Press', 'press@studioagency.com'],
+            ['Tennis27', 'tennis27@mail.com'],
           ].map(([label, email]) => (
             <div key={email}>
               <dt className="font-semibold text-neutral-950">{label}</dt>
@@ -142,13 +110,13 @@ function ContactDetails() {
 
 export const metadata: Metadata = {
   title: 'Contact Us',
-  description: 'Let’s work together. We can’t wait to hear from you.',
+  description: 'Get in touch with us to learn more about our shop.',
 }
 
 export default function Contact() {
   return (
     <>
-      <PageIntro eyebrow="Contact us" title="Let’s work together">
+      <PageIntro eyebrow="Contact us" title="Get in touch to learn more.">
         <p>We can’t wait to hear from you.</p>
       </PageIntro>
 
