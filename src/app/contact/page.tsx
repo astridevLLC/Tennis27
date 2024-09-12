@@ -66,11 +66,11 @@ function ContactDetails() {
   return (
     <FadeIn>
       <h2 className="font-display text-base font-semibold text-neutral-950">
-        Our Shop Location
+        Our Store Location
       </h2>
       <p className="mt-6 text-base text-neutral-600">
           {/* eslint-disable-next-line react/no-unescaped-entities */}
-        Can't wait to hear back? Visit us in person at our shop location.
+        Can't wait to hear back? Visit us in person at our store location.
       </p>
 
       <Locations className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2" />
@@ -110,7 +110,7 @@ function ContactDetails() {
 
 export const metadata: Metadata = {
   title: 'Contact Us',
-  description: 'Get in touch with us to learn more about our shop.',
+  description: 'Get in touch with us to learn more about our store.',
 }
 
 export default function Contact() {

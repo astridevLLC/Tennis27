@@ -86,7 +86,7 @@ function Header({
                         invert={invert}
                         className={clsx(
                             'border-t border-b',
-                            invert ? 'border-white' : 'border-neutral-950'
+                            invert ? 'border-white' : 'border-grass'
                         )}
                     >
                         Contact us
@@ -183,6 +183,10 @@ export default function Navigation() {
         </nav>
     );
 }
+
+
+
+
 
 function RootLayoutInner({children}: { children: React.ReactNode }) {
     let panelId = useId()
@@ -304,15 +308,24 @@ function RootLayoutInner({children}: { children: React.ReactNode }) {
                 style={{borderTopLeftRadius: 40, borderTopRightRadius: 40}}
                 className="relative flex flex-auto overflow-hidden bg-white pt-14"
             >
-            <motion.div
+                <motion.div
                     layout
                     className="relative isolate flex w-full flex-col pt-9"
                 >
-                    <GridPattern
-                        className="absolute inset-x-0 -top-14 -z-10 h-[1000px] w-full fill-neutral-50 stroke-neutral-950/5 [mask-image:linear-gradient(to_bottom_left,white_40%,transparent_50%)]"
-                        yOffset={-96}
-                        interactive
-                    />
+                    <div className="absolute inset-x-0 -top-14 -z-10 h-[1000px] w-full overflow-hidden">
+                        <div className="relative w-full h-full">
+                            <Image
+                                src="/images/TennisRackets.svg"
+                                alt="Tennis Rackets Background"
+                                layout="fill"
+                                objectFit="cover"
+                                quality={100}
+                                priority
+                                className="opacity-5 grayscale transform scale-150 sm:scale-100"
+                            />
+                            <div className="absolute inset-0 bg-neutral-50 mix-blend-multiply"/>
+                        </div>
+                    </div>
 
                     <main className="w-full flex-auto">{children}</main>
 

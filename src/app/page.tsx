@@ -2,17 +2,21 @@ import {type Metadata} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import React from 'react';
+
 import {ContactSection} from 'src/components/ContactSection'
 import {Container} from 'src/components/Container'
 import {FadeIn, FadeInStagger} from 'src/components/FadeIn'
 import {List, ListItem} from 'src/components/List'
 import {SectionIntro} from 'src/components/SectionIntro'
-import {StylizedImage} from 'src/components/StylizedImage'
-import {Testimonial} from 'src/components/Testimonial'
-import logoPhobiaDark from 'src/images/clients/phobia/logo-dark.svg'
-import logoPhobiaLight from 'src/images/clients/phobia/logo-light.svg'
-import imageLaptop from 'src/images/laptop.jpg'
 import {type CaseStudy, type MDXEntry, loadCaseStudies} from 'src/lib/mdx'
+
+import fs from 'fs';
+import path from 'path';
+
+import {ImageSlideshow} from 'src/components/ImageSlideshowProps'
+import YelpReviewTicker from 'src/components/YelpReviewTicker';
+
 
 import asicsLogo from '@/images/dealer-logos/asics-logo.png';
 import babolatLogo from '@/images/dealer-logos/babolat-logo.png';
@@ -44,7 +48,7 @@ const clients = [
 
 export function Clients() {
     return (
-        <div className="mt-32 rounded-4xl bg-grass py-20 sm:mt-32 sm:py-20 lg:mt-64">
+        <div className="mt-16 mb-32 rounded-4xl bg-grass py-20 sm:mt-16 sm:py-20 lg:mt-64">
             <Container>
                 <FadeIn className="flex items-center gap-x-8">
                     <h2 className="text-center font-display text-sm font-semibold tracking-wider text-white sm:text-left">
@@ -82,7 +86,108 @@ export function Clients() {
     )
 }
 
+interface ServerRenderedImageSlideshowProps {
+    images: string[];
+}
+
+function getImagePaths(): string[] {
+    const imageDirectory = path.join(process.cwd(), 'public/images/slideshow');
+
+    if (!fs.existsSync(imageDirectory)) {
+        console.error(`Directory not found: ${imageDirectory}`);
+        return [];
+    }
+
+    const imageFilenames = fs.readdirSync(imageDirectory);
+    const supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
+
+    return imageFilenames
+        .filter(filename => supportedExtensions.includes(path.extname(filename).toLowerCase()))
+        .map(filename => `/images/slideshow/${filename}`);
+}
+
+
+const MailIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+    </svg>
+);
+
+const UsersIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </svg>
+);
+
+const AwardIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="8" r="6"></circle>
+        <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+    </svg>
+);
+
+const RacketIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10 3v4"></path>
+        <path d="M14 3v4"></path>
+        <path d="M13 7h2a4 4 0 0 1 4 4v8a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-8a4 4 0 0 1 4-4h2"></path>
+        <path d="M10 7V3"></path>
+        <path d="M14 7V3"></path>
+    </svg>
+);
+
+const InfoItem = ({icon: Icon, title, children}) => (
+    <div className="flex items-start mb-4">
+        <div className="text-yellow-400 mr-3 mt-1 flex-shrink-0">
+            <Icon/>
+        </div>
+        <div>
+            <h4 className="font-semibold text-lg text-yellow-400 mb-1">{title}</h4>
+            <p className="text-white">{children}</p>
+        </div>
+    </div>
+);
+
+export function Tennis27Info() {
+    return (
+        <div className="bg-grass p-6 rounded-lg h-full">
+            <h3 className="font-bold mb-6 text-white text-2xl border-b border-yellow-400 pb-2">Tennis27 Information</h3>
+
+            <InfoItem icon={UsersIcon} title="Get Involved">
+                Stop by Tennis27 store to check our Demo program and learn more about getting involved in local tennis
+                leagues, find hitting partners, and tennis pros!
+            </InfoItem>
+
+            <InfoItem icon={MailIcon} title="Stay Updated">
+                Join the Tennis27 mailing list to receive the latest news, exclusive offers and special discounts
+                available only
+                to subscribers!
+            </InfoItem>
+
+            <InfoItem icon={AwardIcon} title="Professional Services">
+                Professional tennis, racquetball and badminton stringing on the newest High Tech Babolat Racket Station,
+                with same day turnaround.
+            </InfoItem>
+
+            <InfoItem icon={RacketIcon} title="Wide Selection">
+                <span className="font-semibold">Tennis strings: </span> Luxilon, Babolat, Wilson, Head, Dunlop,
+                Tecnifibre, Genesis, Yonex, Solinco, Volkl.
+            </InfoItem>
+        </div>
+    );
+}
+
 export function Information() {
+    const images = getImagePaths();
+
     return (
         <div className="mt-32 rounded-4xl bg-grass py-20 sm:mt-32 sm:py-20 lg:mt-64">
             <Container>
@@ -93,31 +198,12 @@ export function Information() {
                     <div className="h-px flex-auto bg-white"/>
                 </FadeIn>
                 <FadeIn>
-                    <div className="flex flex-row">
-                        <div>
-                            <p className="mt-10 text-center text-white text-2xl">
-                                Stop by Tennis27 store to check our Demo program and learn more about getting involved
-                                in local tennis leagues, find hitting partners, and tennis pros!
-                            </p>
-
-                            {/*<p className="mt-10 text-center text-white text-lg">*/}
-                            {/*    Join Tennis27 mailing list to receive the latest news, exclusive offers and special*/}
-                            {/*    discounts available only to subscribers!*/}
-                            {/*</p>*/}
+                    <div className="mt-10 flex flex-col md:flex-row gap-8">
+                        <div className="w-full md:w-1/2">
+                            <Tennis27Info/>
                         </div>
-                        {/*image slide show*/}
-                        <div className="mt-10">
-                            <div className="flex justify-center">
-                                <div className="relative w-40 h-40">
-                                    <Image
-                                        src={logoPhobiaLight}
-                                        alt="Phobia"
-                                        fill
-                                        style={{objectFit: 'contain'}}
-                                        unoptimized
-                                    />
-                                </div>
-                            </div>
+                        <div className="w-full md:w-1/2 flex justify-center">
+                            <ImageSlideshow images={images}/>
                         </div>
                     </div>
                 </FadeIn>
@@ -134,16 +220,33 @@ function CaseStudies({
 }) {
     return (
         <>
-            <SectionIntro
-                title="Harnessing technology for a brighter future"
-                className="mt-24 sm:mt-32 lg:mt-40"
-            >
-                <p>
-                    We believe technology is the answer to the world’s greatest
-                    challenges. It’s also the cause, so we find ourselves in bit of a
-                    catch 22 situation.
-                </p>
-            </SectionIntro>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-24 sm:mt-32 lg:mt-40">
+                <div className="relative w-full aspect-square ml-2">
+                    <Image
+                        src="/images/outside-store.webp" // Update this path to your image
+                        alt="Tennis Store Interior"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-lg"
+                    />
+                </div>
+                <SectionIntro
+                    title="Your Trusted Partner in Tennis"
+                    className="md:mt-0"
+                >
+                    <p className="mt-6 text-xl leading-8 text-gray-600">
+                        At Tennis27, we combine cutting-edge technology with decades of tennis expertise
+                        to elevate your game. From precision racket fitting to advanced stringing techniques,
+                        we're committed to providing every player - beginner to pro - with the tools and
+                        knowledge to excel on the court.
+                    </p>
+                    <p className="mt-4 text-xl leading-8 text-gray-600">
+                        Experience the difference that passionate expertise and innovative solutions can
+                        make in your tennis journey. Visit us and discover why we're Chicago's premier
+                        destination for all things tennis.
+                    </p>
+                </SectionIntro>
+            </div>
             <Container className="mt-16">
                 <FadeInStagger className="grid grid-cols-1 gap-8 lg:grid-cols-3">
                     {caseStudies.map((caseStudy) => (
@@ -193,44 +296,49 @@ function Services() {
         <>
             <SectionIntro
                 eyebrow="Services"
-                title="We help you identify, explore and respond to new opportunities."
+                title="We serve up excellence in every aspect of tennis."
                 className="mt-24 sm:mt-32 lg:mt-40"
             >
                 <p>
-                    As long as those opportunities involve giving us money to re-purpose
-                    old projects — we can come up with an endless number of those.
+                    From beginner to pro, we offer a wide range of services to elevate your game
+                    and ensure you're equipped with the best gear on the court.
                 </p>
             </SectionIntro>
             <Container className="mt-16">
                 <div className="lg:flex lg:items-center lg:justify-end">
                     <div className="flex justify-center lg:w-1/2 lg:justify-end lg:pr-12">
-                        <FadeIn className="w-[33.75rem] flex-none lg:w-[45rem]">
-                            <StylizedImage
-                                src={imageLaptop}
-                                sizes="(min-width: 1024px) 41rem, 31rem"
-                                className="justify-center lg:justify-end"
-                            />
+                        <FadeIn className="w-full max-w-[33.75rem] lg:max-w-[45rem]">
+                            <div className="relative w-full aspect-square">
+                                <Image
+                                    src="/images/Logo-2-Tennis27.webp"
+                                    alt="Tennis Rackets"
+                                    objectFit="contain"
+                                    width={500}
+                                    height={500}
+                                />
+                            </div>
                         </FadeIn>
                     </div>
                     <List className="mt-16 lg:mt-0 lg:w-1/2 lg:min-w-[33rem] lg:pl-4">
-                        <ListItem title="Web development">
-                            We specialise in crafting beautiful, high quality marketing pages.
-                            The rest of the website will be a shell that uses lorem ipsum
-                            everywhere.
+                        <ListItem title="Racket Stringing">
+                            Our expert technicians use state-of-the-art equipment to provide
+                            precise stringing tailored to your playing style and preferences.
+                            Same-day service available.
                         </ListItem>
-                        <ListItem title="Application development">
-                            We have a team of skilled developers who are experts in the latest
-                            app frameworks, like Angular 1 and Google Web Toolkit.
+                        <ListItem title="Custom Fitting">
+                            Experience our comprehensive fitting process to find the perfect
+                            racket, shoes, and gear that match your game. We analyze your
+                            play style to recommend the best equipment.
                         </ListItem>
-                        <ListItem title="E-commerce">
-                            We are at the forefront of modern e-commerce development. Which
-                            mainly means adding your logo to the Shopify store template we’ve
-                            used for the past six years.
+                        <ListItem title="Equipment Demos">
+                            Try before you buy! Our demo program allows you to test the latest
+                            rackets and gear on the court, ensuring you make the right choice
+                            for your game.
                         </ListItem>
-                        <ListItem title="Custom content management">
-                            At Studio we understand the importance of having a robust and
-                            customised CMS. That’s why we run all of our client projects out
-                            of a single, enormous Joomla instance.
+                        <ListItem title="Find Tennis Partners">
+                            Connect with fellow tennis enthusiasts in your area! Our partner-matching service
+                            helps you find players of similar skill levels for casual rallies, competitive matches,
+                            or regular practice sessions. Expand your tennis network and enjoy more court time.
                         </ListItem>
                     </List>
                 </div>
@@ -241,7 +349,7 @@ function Services() {
 
 export const metadata: Metadata = {
     description:
-        'We are a development studio working at the intersection of design and technology.',
+        'Tennis27 is the #1 tennis store in Chicago. We offer a wide selection of tennis racquets, shoes, apparel, and accessories.',
 }
 
 export default async function Home() {
@@ -249,13 +357,13 @@ export default async function Home() {
 
     return (
         <>
-            <Container className="mt-24 sm:mt-32 md:mt-56">
+            <Container className="mt-32 sm:mt-40 md:mt-56"> {/* Increased top margin for mobile */}
                 <FadeIn className="max-w-3xl">
-                    <h1 className="font-display text-5xl font-medium tracking-tight text-neutral-950 [text-wrap:balance] sm:text-7xl">
-                        The <span className="text-grass">#1</span> Tennis Shop in Chicago<span
+                    <h1 className="font-display text-4xl font-medium tracking-tight text-neutral-950 [text-wrap:balance] sm:text-5xl md:text-7xl">
+                        The <span className="text-grass">#1</span> Tennis Store in Chicago<span
                         className="text-grass">.</span>
                     </h1>
-                    <p className="mt-6 text-xl text-neutral-600">
+                    <p className="mt-6 text-lg sm:text-xl text-neutral-600">
                         Tennis27 is your one stop shop for Racquets, Strings, Shoes, Bags, Balls, Over-Grips, Apparel,
                         Gifts, 24h-Stringing and Junior Tennis.
                     </p>
@@ -268,14 +376,9 @@ export default async function Home() {
 
             <Clients/>
 
-            <Testimonial
-                className="mt-24 sm:mt-32 lg:mt-40"
-                client={{name: 'Phobia', logo: logoPhobiaDark}}
-            >
-                The team at Studio went above and beyond with our onboarding, even
-                finding a way to access the user’s microphone without triggering one of
-                those annoying permission dialogs.
-            </Testimonial>
+            <br className="mt-64"/>
+
+            <YelpReviewTicker />
 
             <Services/>
 

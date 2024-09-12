@@ -75,9 +75,9 @@ function YelpIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
     )
 }
 export const socialMediaProfiles = [
-  { title: 'Facebook', href: 'https://facebook.com', icon: FacebookIcon },
-  { title: 'Google Maps', href: 'https://instagram.com', icon: GoogleMapsIcon },
-  { title: 'Yelp', href: 'https://github.com', icon: YelpIcon },
+  { title: 'Facebook', href: 'https://www.facebook.com/27Tennis27/', icon: FacebookIcon },
+  { title: 'Google Maps', href: 'https://www.google.com/maps/place/Tennis27+Tennis+Store/@42.0272114,-88.079493,849m/data=!3m2!1e3!4b1!4m6!3m5!1s0x880faf28b74904ff:0x4a24d732cf097e3b!8m2!3d42.0272114!4d-88.0769181!16s%2Fg%2F11hbsxl8wx?entry=ttu&g_ep=EgoyMDI0MDkwOS4wIKXMDSoASAFQAw%3D%3D', icon: GoogleMapsIcon },
+  { title: 'Yelp', href: 'https://www.yelp.com/biz/tennis27-schaumburg-6', icon: YelpIcon },
 ]
 
 export function SocialMedia({
