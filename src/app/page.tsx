@@ -17,201 +17,18 @@ import path from 'path';
 import {ImageSlideshow} from 'src/components/ImageSlideshowProps'
 import YelpReviewTicker from 'src/components/YelpReviewTicker';
 
-
-import asicsLogo from '@/images/dealer-logos/asics-logo.png';
-import babolatLogo from '@/images/dealer-logos/babolat-logo.png';
-import dunlopLogo from '@/images/dealer-logos/dunlop-logo.png';
-import headLogo from '@/images/dealer-logos/head-logo.png';
-import newBalanceLogo from '@/images/dealer-logos/newbalance-logo.png';
-import solincoLogo from '@/images/dealer-logos/solinco-logo.png';
-import technifibreLogo from '@/images/dealer-logos/technifibre-logo.png';
-import genesisLogo from '@/images/dealer-logos/genesis-logo.png';
-import volklLogo from '@/images/dealer-logos/volkl-logo.png';
-import wilsonLogo from '@/images/dealer-logos/wilson-logo.png';
-import yonexLogo from '@/images/dealer-logos/yonex-logo.png';
+import {Clients} from 'src/components/Clients'
+import {Tennis27Info} from 'src/components/Tennis27Info'
+import {Information} from 'src/components/Information'
 
 
-const clients = [
-    {name: 'Asics', logo: asicsLogo, url: '#'},
-    {name: 'Babolat', logo: babolatLogo, url: '#'},
-    {name: 'Dunlop', logo: dunlopLogo, url: '#'},
-    {name: 'Head', logo: headLogo, url: '#'},
-    {name: 'New Balance', logo: newBalanceLogo, url: '#'},
-    {name: 'Solinco', logo: solincoLogo, url: '#'},
-    {name: 'Technifibre', logo: technifibreLogo, url: '#'},
-    {name: 'Genesis', logo: genesisLogo, url: '#'},
-    {name: 'Volkl', logo: volklLogo, url: '#'},
-    {name: 'Wilson', logo: wilsonLogo, url: '#'},
-    {name: 'Yonex', logo: yonexLogo, url: '#'},
-]
 
-
-export function Clients() {
-    return (
-        <div className="mt-16 mb-32 rounded-4xl bg-grass py-20 sm:mt-16 sm:py-20 lg:mt-64">
-            <Container>
-                <FadeIn className="flex items-center gap-x-8">
-                    <h2 className="text-center font-display text-sm font-semibold tracking-wider text-white sm:text-left">
-                        We are an authorized dealer for
-                    </h2>
-                    <div className="h-px flex-auto bg-white"/>
-                </FadeIn>
-                <FadeIn>
-                    <ul
-                        role="list"
-                        className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-10"
-                    >
-                        {clients.map((client, index) => (
-                            <li
-                                key={client.name}
-                                className="flex items-center justify-center w-[calc(50%-1rem)] sm:w-[calc(25%-1.5rem)]"
-                            >
-                                <FadeIn>
-                                    <div className="w-40 h-20 relative">
-                                        <Image
-                                            src={client.logo}
-                                            alt={client.name}
-                                            fill
-                                            style={{objectFit: 'contain'}}
-                                            unoptimized
-                                        />
-                                    </div>
-                                </FadeIn>
-                            </li>
-                        ))}
-                    </ul>
-                </FadeIn>
-            </Container>
-        </div>
-    )
-}
 
 interface ServerRenderedImageSlideshowProps {
     images: string[];
 }
 
-function getImagePaths(): string[] {
-    const imageDirectory = path.join(process.cwd(), 'public/images/slideshow');
 
-    if (!fs.existsSync(imageDirectory)) {
-        console.error(`Directory not found: ${imageDirectory}`);
-        return [];
-    }
-
-    const imageFilenames = fs.readdirSync(imageDirectory);
-    const supportedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
-
-    return imageFilenames
-        .filter(filename => supportedExtensions.includes(path.extname(filename).toLowerCase()))
-        .map(filename => `/images/slideshow/${filename}`);
-}
-
-
-const MailIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-    </svg>
-);
-
-const UsersIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-        <circle cx="9" cy="7" r="4"></circle>
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-    </svg>
-);
-
-const AwardIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="8" r="6"></circle>
-        <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
-    </svg>
-);
-
-const RacketIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 3v4"></path>
-        <path d="M14 3v4"></path>
-        <path d="M13 7h2a4 4 0 0 1 4 4v8a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-8a4 4 0 0 1 4-4h2"></path>
-        <path d="M10 7V3"></path>
-        <path d="M14 7V3"></path>
-    </svg>
-);
-
-// @ts-ignore
-const InfoItem = ({icon: Icon, title, children}) => (
-    <div className="flex items-start mb-4">
-        <div className="text-yellow-400 mr-3 mt-1 flex-shrink-0">
-            <Icon/>
-        </div>
-        <div>
-            <h4 className="font-semibold text-lg text-yellow-400 mb-1">{title}</h4>
-            <p className="text-white">{children}</p>
-        </div>
-    </div>
-);
-
-export function Tennis27Info() {
-    return (
-        <div className="bg-grass p-6 rounded-lg h-full">
-            <h3 className="font-bold mb-6 text-white text-2xl border-b border-yellow-400 pb-2">Tennis27 Information</h3>
-
-            <InfoItem icon={UsersIcon} title="Get Involved">
-                Stop by Tennis27 store to check our Demo program and learn more about getting involved in local tennis
-                leagues, find hitting partners, and tennis pros!
-            </InfoItem>
-
-            <InfoItem icon={MailIcon} title="Stay Updated">
-                Join the Tennis27 mailing list to receive the latest news, exclusive offers and special discounts
-                available only
-                to subscribers!
-            </InfoItem>
-
-            <InfoItem icon={AwardIcon} title="Professional Services">
-                Professional tennis, racquetball and badminton stringing on the newest High Tech Babolat Racket Station,
-                with same day turnaround.
-            </InfoItem>
-
-            <InfoItem icon={RacketIcon} title="Wide Selection">
-                <span className="font-semibold">Tennis strings: </span> Luxilon, Babolat, Wilson, Head, Dunlop,
-                Tecnifibre, Genesis, Yonex, Solinco, Volkl.
-            </InfoItem>
-        </div>
-    );
-}
-
-export function Information() {
-    const images = getImagePaths();
-
-    return (
-        <div className="mt-32 rounded-4xl bg-grass py-20 sm:mt-32 sm:py-20 lg:mt-64">
-            <Container>
-                <FadeIn className="flex items-center gap-x-8">
-                    <h2 className="text-center font-display text-sm font-semibold tracking-wider text-white sm:text-left">
-                        Tennis27
-                    </h2>
-                    <div className="h-px flex-auto bg-white"/>
-                </FadeIn>
-                <FadeIn>
-                    <div className="mt-10 flex flex-col md:flex-row gap-8">
-                        <div className="w-full md:w-1/2">
-                            <Tennis27Info/>
-                        </div>
-                        <div className="w-full md:w-1/2 flex justify-center">
-                            <ImageSlideshow images={images}/>
-                        </div>
-                    </div>
-                </FadeIn>
-            </Container>
-        </div>
-    )
-}
 
 
 function CaseStudies({
@@ -357,15 +174,14 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-    let caseStudies = (await loadCaseStudies()).slice(0, 3)
+    const caseStudies = (await loadCaseStudies()).slice(0, 3)
 
     return (
         <>
-            <Container className="mt-32 sm:mt-40 md:mt-56"> {/* Increased top margin for mobile */}
+            <Container className="mt-32 sm:mt-40 md:mt-56">
                 <FadeIn className="max-w-3xl">
                     <h1 className="font-display text-4xl font-medium tracking-tight text-neutral-950 [text-wrap:balance] sm:text-5xl md:text-7xl">
-                        The <span className="text-grass">#1</span> Tennis Store in Chicago<span
-                        className="text-grass">.</span>
+                        The <span className="text-grass">#1</span> Tennis Store in Chicago<span className="text-grass">.</span>
                     </h1>
                     <p className="mt-6 text-lg sm:text-xl text-neutral-600">
                         Tennis27 is your one stop shop for Racquets, Strings, Shoes, Bags, Balls, Over-Grips, Apparel,
@@ -374,19 +190,13 @@ export default async function Home() {
                 </FadeIn>
             </Container>
 
-            <Information/>
-
-            <CaseStudies caseStudies={caseStudies}/>
-
-            <Clients/>
-
-            <br className="mt-64"/>
-
+            <Information />
+            <CaseStudies caseStudies={caseStudies} />
+            <Clients />
+            <div className="mt-64" />
             <YelpReviewTicker />
-
-            <Services/>
-
-            <ContactSection/>
+            <Services />
+            <ContactSection />
         </>
     )
 }
