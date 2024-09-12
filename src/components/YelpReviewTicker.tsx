@@ -3,7 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-const reviews = [
+interface Review {
+    id: number;
+    text: string;
+    author: string;
+    rating: number;
+}
+
+const reviews: Review[] = [
     {
         id: 1,
         text: "Highly recommended! Great product selection and great service. The rental program is very useful if you are looking for a racquet replacement.",
@@ -30,7 +37,7 @@ const reviews = [
     },
 ];
 
-const ReviewCard = ({ review }) => (
+const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
     <div className="flex-shrink-0 w-80 bg-white rounded-lg shadow-md p-6 mx-4 mt-5">
         <div className="flex items-center mb-4">
             <div className="text-yellow-400 mr-2">
@@ -43,8 +50,8 @@ const ReviewCard = ({ review }) => (
     </div>
 );
 
-const YelpReviewTicker = () => {
-    const [duplicatedReviews, setDuplicatedReviews] = useState([]);
+const YelpReviewTicker: React.FC = () => {
+    const [duplicatedReviews, setDuplicatedReviews] = useState<Review[]>([]);
 
     useEffect(() => {
         setDuplicatedReviews([...reviews, ...reviews, ...reviews]);
@@ -54,13 +61,13 @@ const YelpReviewTicker = () => {
         <div className="relative w-full overflow-hidden bg-gray-100 py-10">
             <div className="absolute top-4 left-4 z-10">
                 <Image
-                    src="/images/yelp-logo.webp" // Update this path to your Yelp logo image
+                    src="/images/yelp-logo.webp"
                     alt="Yelp Logo"
                     width={200}
                     height={200}
                 />
             </div>
-            <div className="flex animate-infinite-scroll pt-16"> {/* Added top padding to avoid overlap with logo */}
+            <div className="flex animate-infinite-scroll pt-16">
                 {duplicatedReviews.map((review, index) => (
                     <ReviewCard key={`${review.id}-${index}`} review={review} />
                 ))}
